@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio | Software Developer",
+  title: "MUHAMMAD | Full-Stack Developer",
   description:
-    "Full-stack software developer specializing in building exceptional digital experiences. Explore my projects, skills, and experience.",
+    "MUHAMMAD - Full-stack software developer specializing in building exceptional digital experiences. Explore my projects, skills, and experience.",
   keywords: [
     "software developer",
     "full-stack developer",
@@ -27,21 +27,21 @@ export const metadata: Metadata = {
     "Next.js",
     "TypeScript",
   ],
-  authors: [{ name: "Developer" }],
+  authors: [{ name: "MUHAMMAD" }],
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
   openGraph: {
-    title: "Portfolio | Software Developer",
+    title: "MUHAMMAD | Full-Stack Developer",
     description:
-      "Full-stack software developer specializing in building exceptional digital experiences.",
+      "MUHAMMAD - Full-stack software developer specializing in building exceptional digital experiences.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Portfolio | Software Developer",
+    title: "MUHAMMAD | Full-Stack Developer",
     description:
-      "Full-stack software developer specializing in building exceptional digital experiences.",
+      "MUHAMMAD - Full-stack software developer specializing in building exceptional digital experiences.",
   },
 };
 
