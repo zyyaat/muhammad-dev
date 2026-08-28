@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Code2, Coffee, Globe, Zap } from "lucide-react";
+import Image from "next/image";
 
 const stats = [
   { label: "Years Experience", value: "3+", icon: Code2 },
@@ -30,13 +31,38 @@ export default function About() {
           <div className="mt-4 w-16 h-1 bg-primary mx-auto rounded-full" />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-3 gap-12 items-center">
+          {/* B&W Profile Photo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="flex justify-center lg:justify-end"
+          >
+            <div className="relative group">
+              {/* Decorative ring */}
+              <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              {/* Photo circle */}
+              <div className="relative w-52 h-52 sm:w-60 sm:h-60 rounded-full overflow-hidden border-2 border-border">
+                <Image
+                  src="/profile-bw.webp"
+                  alt="Developer portrait"
+                  fill
+                  className="object-cover object-top"
+                  sizes="240px"
+                />
+              </div>
+              {/* Accent dot */}
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-primary border-4 border-background" />
+            </div>
+          </motion.div>
+
           {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="space-y-5"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-2 space-y-5"
           >
             <p className="text-muted-foreground leading-relaxed text-base">
               I am a passionate full-stack developer with a deep love for building
@@ -58,29 +84,29 @@ export default function About() {
               technical writing and community engagement.
             </p>
           </motion.div>
-
-          {/* Stats Grid */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-2 gap-4"
-          >
-            {stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
-                className="p-5 rounded-xl border border-border bg-card hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 group"
-              >
-                <stat.icon className="h-5 w-5 text-primary mb-3 group-hover:scale-110 transition-transform" />
-                <div className="text-2xl sm:text-3xl font-bold">{stat.value}</div>
-                <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
+
+        {/* Stats Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16"
+        >
+          {stats.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
+              className="p-5 rounded-xl border border-border bg-card hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 group text-center"
+            >
+              <stat.icon className="h-5 w-5 text-primary mb-3 mx-auto group-hover:scale-110 transition-transform" />
+              <div className="text-2xl sm:text-3xl font-bold">{stat.value}</div>
+              <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
