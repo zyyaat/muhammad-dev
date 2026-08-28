@@ -52,3 +52,13 @@ prompt
 server.log
 # Skills directory
 /skills/
+
+# Project-specific
+/download/
+/upload/
+/.zscripts/
+/db/
+/worklog.md
+/examples/
+/mini-services/
+/tests/
