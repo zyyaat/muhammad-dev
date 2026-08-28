@@ -31,6 +31,9 @@ export default function Navbar() {
     () => false
   );
 
+  // Whether we're on top of the hero (dark photo background)
+  const isOnHero = activeSection === "home" && !isScrolled;
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -80,33 +83,42 @@ export default function Navbar() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className="text-primary">&lt;</span>
-            Dev
-            <span className="text-primary">/&gt;</span>
+            <span className={isOnHero ? "text-primary" : "text-primary"}>&lt;</span>
+            <span className={isOnHero ? "text-white" : "text-foreground"}>Dev</span>
+            <span className={isOnHero ? "text-primary" : "text-primary"}>/&gt;</span>
           </motion.button>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.href}
-                onClick={() => scrollToSection(link.href)}
-                className={`relative px-3 py-2 text-sm font-medium transition-colors rounded-md ${
-                  activeSection === link.href.replace("#", "")
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {activeSection === link.href.replace("#", "") && (
-                  <motion.div
-                    layoutId="activeNav"
-                    className="absolute inset-0 bg-primary/10 rounded-md"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-                <span className="relative z-10">{link.label}</span>
-              </button>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.replace("#", "");
+              return (
+                <button
+                  key={link.href}
+                  onClick={() => scrollToSection(link.href)}
+                  className={`relative px-3 py-2 text-sm font-medium transition-colors rounded-md ${
+                    isOnHero
+                      ? isActive
+                        ? "text-primary"
+                        : "text-white/70 hover:text-white"
+                      : isActive
+                        ? "text-primary"
+                        : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNav"
+                      className={`absolute inset-0 rounded-md ${
+                        isOnHero ? "bg-white/10" : "bg-primary/10"
+                      }`}
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative z-10">{link.label}</span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Right side: theme toggle + mobile menu */}
@@ -116,7 +128,7 @@ export default function Navbar() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="h-9 w-9"
+                className={`h-9 w-9 ${isOnHero ? "text-white/70 hover:text-white hover:bg-white/10" : ""}`}
               >
                 {theme === "dark" ? (
                   <Sun className="h-4 w-4" />
@@ -129,7 +141,7 @@ export default function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden h-9 w-9"
+              className={`md:hidden h-9 w-9 ${isOnHero ? "text-white/70 hover:text-white hover:bg-white/10" : ""}`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? (

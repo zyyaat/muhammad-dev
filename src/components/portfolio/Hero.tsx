@@ -95,19 +95,18 @@ export default function Hero() {
             View My Work
             <ArrowDown className="h-4 w-4" />
           </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="gap-2 px-8 border-white/20 text-white hover:bg-white/10 hover:text-white"
+          <button
+            type="button"
             onClick={() =>
               document
                 .getElementById("contact")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
+            className="inline-flex items-center gap-2 px-8 h-11 rounded-md text-sm font-medium border border-white/20 text-white bg-transparent hover:bg-white/10 transition-colors"
           >
             Get In Touch
             <Mail className="h-4 w-4" />
-          </Button>
+          </button>
         </motion.div>
 
         {/* Social Links */}
