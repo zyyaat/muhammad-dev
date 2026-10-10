@@ -2,96 +2,14 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
+import { ExternalLink, Github, ArrowUpRight, ArrowRight } from "lucide-react";
 import TechIcon from "./TechIcon";
-
-type ProjectCategory = "All" | "Web App" | "API" | "Mobile" | "Open Source";
-
-interface Project {
-  title: string;
-  description: string;
-  category: ProjectCategory;
-  tags: string[];
-  image: string;
-  liveUrl?: string;
-  githubUrl?: string;
-  featured?: boolean;
-}
-
-const projects: Project[] = [
-  {
-    title: "Pharmacy OS",
-    description:
-      "A multi-tenant pharmacy operations platform: one Go API powering four Next.js apps and a Flutter mobile client — inventory, POS, employees, attendance, subscriptions, payments, and a real-time support desk. ~100K lines of code, built end-to-end.",
-    category: "Web App",
-    tags: ["Go", "Gin", "PostgreSQL", "Next.js", "Flutter", "WebSocket"],
-    image: "/projects/pharmacy-os.jpg",
-    liveUrl: "https://matketing22.vercel.app/",
-    githubUrl: "https://github.com/zyyaat/pharmacy-public",
-    featured: true,
-  },
-  {
-    title: "E-Commerce Platform",
-    description:
-      "A full-featured e-commerce platform with real-time inventory management, Stripe payment integration, and an admin dashboard for order tracking and analytics.",
-    category: "Web App",
-    tags: ["Next.js", "TypeScript", "Prisma", "Stripe", "PostgreSQL"],
-    image: "/projects/ecommerce.jpg",
-    liveUrl: "#",
-    githubUrl: "#",
-    featured: true,
-  },
-  {
-    title: "Task Management API",
-    description:
-      "A RESTful API for task management with JWT authentication, role-based access control, and real-time WebSocket notifications for team collaboration.",
-    category: "API",
-    tags: ["Node.js", "Express", "MongoDB", "Socket.io", "JWT"],
-    image: "/projects/api.jpg",
-    githubUrl: "#",
-    featured: true,
-  },
-  {
-    title: "AI Chat Interface",
-    description:
-      "An elegant AI chat application with streaming responses, conversation history, and markdown rendering. Built with a focus on performance and UX.",
-    category: "Web App",
-    tags: ["React", "OpenAI", "Tailwind CSS", "Vercel AI SDK"],
-    image: "/projects/aichat.jpg",
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    title: "Portfolio CMS",
-    description:
-      "A headless CMS designed for developer portfolios, featuring a rich text editor, image optimization, and automatic deployment to Vercel via webhooks.",
-    category: "Web App",
-    tags: ["Next.js", "MDX", "Prisma", "Vercel"],
-    image: "/projects/cms.jpg",
-    githubUrl: "#",
-  },
-  {
-    title: "CLI Tool Generator",
-    description:
-      "An open-source CLI tool that scaffolds project templates with customizable configurations, supporting multiple frameworks and build tools.",
-    category: "Open Source",
-    tags: ["TypeScript", "Commander.js", "Inquirer"],
-    image: "/projects/cli.jpg",
-    githubUrl: "#",
-  },
-  {
-    title: "Fitness Tracker App",
-    description:
-      "A cross-platform mobile application for tracking workouts, nutrition, and health metrics with data visualization charts and goal setting.",
-    category: "Mobile",
-    tags: ["React Native", "Expo", "Firebase", "Chart.js"],
-    image: "/projects/fitness.jpg",
-    liveUrl: "#",
-    githubUrl: "#",
-  },
-];
+import { caseStudies } from "@/lib/case-studies";
+import type { ProjectCategory } from "@/lib/case-studies";
 
 const projectCategories: ProjectCategory[] = [
   "All",
@@ -109,8 +27,8 @@ export default function Projects() {
 
   const filteredProjects =
     activeCategory === "All"
-      ? projects
-      : projects.filter((p) => p.category === activeCategory);
+      ? caseStudies
+      : caseStudies.filter((p) => p.category === activeCategory);
 
   return (
     <section id="projects" className="py-24 sm:py-32 px-4">
@@ -125,7 +43,7 @@ export default function Projects() {
           <div className="mt-4 w-16 h-1 bg-primary mx-auto rounded-full" />
           <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
             A selection of projects that showcase my skills and passion for
-            building great software.
+            building great software. Every card opens a full case study.
           </p>
         </motion.div>
 
@@ -155,57 +73,81 @@ export default function Projects() {
         <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project, i) => (
             <motion.div
-              key={project.title}
+              key={project.slug}
               layout
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: 0.05 * i }}
               className="group relative flex flex-col rounded-xl border border-border bg-card overflow-hidden hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500"
             >
-              {/* Project Image Placeholder */}
-              <div className="relative h-48 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-4xl font-bold text-primary/20">
-                    {project.title.charAt(0)}
-                  </div>
-                </div>
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+              {/* Cover */}
+              <Link
+                href={`/projects/${project.slug}`}
+                className="relative block h-48 overflow-hidden"
+                aria-label={`Open ${project.title} case study`}
+              >
+                <Image
+                  src={project.cover}
+                  alt={`${project.title} cover`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                {/* readability gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-card/70 via-transparent to-transparent" />
+                {/* Hover overlay with links */}
+                <div className="absolute inset-0 flex items-center justify-center gap-3 bg-primary/80 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100">
                   {project.liveUrl && (
-                    <a
-                      href={project.liveUrl}
-                      className="p-2 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
+                    <span
+                      role="button"
+                      tabIndex={-1}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(project.liveUrl, "_blank");
+                      }}
+                      className="p-2.5 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 hover:scale-110 transition-all"
                       aria-label="Live demo"
                     >
                       <ExternalLink className="h-5 w-5 text-white" />
-                    </a>
+                    </span>
                   )}
                   {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      className="p-2 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
+                    <span
+                      role="button"
+                      tabIndex={-1}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(project.githubUrl, "_blank");
+                      }}
+                      className="p-2.5 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 hover:scale-110 transition-all"
                       aria-label="GitHub repo"
                     >
                       <Github className="h-5 w-5 text-white" />
-                    </a>
+                    </span>
                   )}
+                  <span className="px-4 py-2.5 rounded-full bg-white text-foreground text-sm font-semibold flex items-center gap-1.5 hover:scale-105 transition-transform">
+                    Case study
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
                 </div>
                 {/* Featured badge */}
                 {project.featured && (
                   <div className="absolute top-3 right-3">
-                    <Badge className="bg-primary text-primary-foreground text-xs">
+                    <Badge className="bg-primary text-primary-foreground text-xs shadow-lg">
                       Featured
                     </Badge>
                   </div>
                 )}
-              </div>
+              </Link>
 
               {/* Content */}
               <div className="flex flex-col flex-1 p-5">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-lg font-semibold group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h3>
+                  <Link href={`/projects/${project.slug}`}>
+                    <h3 className="text-lg font-semibold group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h3>
+                  </Link>
                   <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed flex-1">
@@ -225,6 +167,13 @@ export default function Projects() {
                     </Badge>
                   ))}
                 </div>
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:gap-2.5 transition-all"
+                >
+                  Read the case study
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </div>
             </motion.div>
           ))}
@@ -242,7 +191,7 @@ export default function Projects() {
             size="lg"
             className="gap-2"
             onClick={() =>
-              window.open("https://github.com", "_blank")
+              window.open("https://github.com/zyyaat", "_blank")
             }
           >
             <Github className="h-4 w-4" />

@@ -18,6 +18,8 @@ import {
   FileSpreadsheet,
   Barcode,
   Globe,
+  FileText,
+  ArrowRight,
 } from "lucide-react";
 import TechIcon from "./TechIcon";
 
@@ -164,6 +166,13 @@ export default function PharmacyOS() {
             <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
               <Github className="h-4 w-4" />
               Source Code
+            </a>
+          </Button>
+          <Button size="lg" variant="ghost" className="gap-2" asChild>
+            <a href="/projects/pharmacy-os">
+              <FileText className="h-4 w-4" />
+              Full Case Study
+              <ArrowRight className="h-3.5 w-3.5 opacity-70" />
             </a>
           </Button>
         </motion.div>
