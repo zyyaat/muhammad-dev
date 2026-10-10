@@ -22,6 +22,17 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: "Pharmacy OS",
+    description:
+      "A multi-tenant pharmacy operations platform: one Go API powering four Next.js apps and a Flutter mobile client — inventory, POS, employees, attendance, subscriptions, payments, and a real-time support desk. ~100K lines of code, built end-to-end.",
+    category: "Web App",
+    tags: ["Go", "Gin", "PostgreSQL", "Next.js", "Flutter", "WebSocket"],
+    image: "/projects/pharmacy-os.jpg",
+    liveUrl: "https://matketing22.vercel.app/",
+    githubUrl: "https://github.com/zyyaat/pharmacy-public",
+    featured: true,
+  },
+  {
     title: "E-Commerce Platform",
     description:
       "A full-featured e-commerce platform with real-time inventory management, Stripe payment integration, and an admin dashboard for order tracking and analytics.",

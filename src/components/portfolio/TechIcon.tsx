@@ -33,12 +33,19 @@ import {
   SiExpo,
   SiFirebase,
   SiChartdotjs,
+  SiGo,
+  SiGin,
+  SiFlutter,
+  SiDart,
+  SiSupabase,
 } from "react-icons/si";
 import {
   Sparkles,
   Terminal,
   MousePointerClick,
   Code2,
+  Radio,
+  CreditCard,
 } from "lucide-react";
 
 type AnyIcon = ComponentType<{
@@ -105,6 +112,15 @@ reg(["chart.js", "chartjs"], SiChartdotjs, "#FF6384");
 reg(["openai"], Sparkles); // mono
 reg(["commander.js", "commanderjs", "commander"], Terminal); // mono
 reg(["inquirer"], MousePointerClick); // mono
+
+/* Pharmacy OS stack */
+reg(["go", "golang"], SiGo, "#00ADD8");
+reg(["gin", "gin framework"], SiGin, "#008ECF");
+reg(["flutter"], SiFlutter, "#02569B");
+reg(["dart"], SiDart, "#0175C2");
+reg(["supabase"], SiSupabase, "#3FCF8E");
+reg(["websocket", "websockets", "real-time", "realtime"], Radio); // mono
+reg(["paymob", "xpay", "payments"], CreditCard); // mono
 
 const FALLBACK: TechMeta = { icon: Code2 }; // mono
 

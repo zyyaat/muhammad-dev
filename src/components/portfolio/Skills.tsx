@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useInView } from "framer-motion";
 import { useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import TechIcon, { techVars } from "./TechIcon";
 
-type Category = "Frontend" | "Backend" | "Tools" | "Other";
+type Category = "Frontend" | "Backend" | "Mobile" | "Tools" | "Other";
 
 interface Skill {
   name: string;
@@ -35,9 +35,13 @@ const skills: Skill[] = [
   { name: "Figma", category: "Tools", level: 3 },
   { name: "Linux", category: "Tools", level: 4 },
   { name: "CI/CD", category: "Tools", level: 4 },
+  { name: "Go", category: "Backend", level: 4 },
+  { name: "Gin", category: "Backend", level: 4 },
+  { name: "Flutter", category: "Mobile", level: 4 },
+  { name: "Dart", category: "Mobile", level: 4 },
 ];
 
-const categories: Category[] = ["Frontend", "Backend", "Tools"];
+const categories: Category[] = ["Frontend", "Backend", "Mobile", "Tools"];
 
 function getLevelLabel(level: number): string {
   const labels = ["", "Beginner", "Elementary", "Intermediate", "Advanced", "Expert"];
