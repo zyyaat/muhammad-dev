@@ -1,8 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useInView } from "framer-motion";
-import { useRef, useState, type CSSProperties } from "react";
-import { Badge } from "@/components/ui/badge";
+import { useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import TechIcon, { techVars } from "./TechIcon";
 
 type Category = "Frontend" | "Backend" | "Tools" | "Other";
@@ -50,6 +49,14 @@ export default function Skills() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeCategory, setActiveCategory] = useState<Category | "All">("All");
 
+  // Spotlight follows the cursor inside each card
+  const handleSpotlight = (e: MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
+  };
+
   const filteredSkills =
     activeCategory === "All"
       ? skills
@@ -96,7 +103,7 @@ export default function Skills() {
         {/* Skills Grid */}
         <motion.div
           layout
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"
         >
           <AnimatePresence mode="popLayout">
             {filteredSkills.map((skill, i) => (
@@ -121,37 +128,22 @@ export default function Skills() {
                   damping: 24,
                   delay: isInView ? Math.min(i * 0.045, 0.6) : 0,
                 }}
+                whileHover={{ y: -6, scale: 1.03 }}
+                onMouseMove={handleSpotlight}
                 style={techVars(skill.name) as CSSProperties}
-                className="skill-card group relative flex flex-col items-center p-4 pt-5 rounded-xl border border-border bg-card cursor-default"
+                className="skill-card group relative flex flex-col items-center p-4 pt-5 rounded-2xl border border-border bg-card cursor-default"
               >
                 {/* Brand-colored icon chip */}
-                <div className="tech-chip mb-3 h-11 w-11 rounded-xl text-muted-foreground/80">
-                  <TechIcon name={skill.name} className="tech-icon h-6 w-6" />
+                <div className="tech-chip mb-3.5 h-12 w-12 rounded-2xl text-muted-foreground/80">
+                  <TechIcon name={skill.name} className="tech-icon h-7 w-7" />
                 </div>
 
-                <div className="text-sm font-medium text-center leading-tight">
+                <div className="text-sm font-semibold text-center leading-tight">
                   {skill.name}
                 </div>
 
-                {/* Level dots */}
-                <div className="flex justify-center gap-1 mt-2.5">
-                  {Array.from({ length: 5 }).map((_, idx) => (
-                    <div
-                      key={idx}
-                      className={`h-1.5 w-1.5 rounded-full transition-colors duration-300 ${
-                        idx < skill.level
-                          ? "bg-primary dot-on"
-                          : "bg-muted-foreground/20"
-                      }`}
-                    />
-                  ))}
-                </div>
-
-                {/* Tooltip on hover */}
-                <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-10">
-                  <Badge variant="secondary" className="text-xs whitespace-nowrap shadow-md">
-                    {getLevelLabel(skill.level)}
-                  </Badge>
+                <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground mt-1.5">
+                  {getLevelLabel(skill.level)}
                 </div>
               </motion.div>
             ))}

@@ -68,7 +68,8 @@ export default function Contact() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl font-bold">Get In Touch</h2>
-          <div className="mt-4 w-16 h-1 bg-primary mx-auto rounded-full" />\n          <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
+          <div className="mt-4 w-16 h-1 bg-primary mx-auto rounded-full" />
+          <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
             Have a project in mind or want to collaborate? I would love to hear
             from you. Drop me a message and I will respond as soon as possible.
           </p>
