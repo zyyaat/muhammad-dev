@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import { useRef, useState, type CSSProperties } from "react";
 import { Badge } from "@/components/ui/badge";
+import TechIcon, { techVars } from "./TechIcon";
 
 type Category = "Frontend" | "Backend" | "Tools" | "Other";
 
@@ -97,37 +98,64 @@ export default function Skills() {
           layout
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
         >
-          {filteredSkills.map((skill, i) => (
-            <motion.div
-              key={skill.name}
-              layout
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.3, delay: 0.05 * i }}
-              className="group relative p-4 rounded-xl border border-border bg-card hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 cursor-default"
-            >
-              <div className="text-sm font-medium text-center">{skill.name}</div>
-              {/* Level dots */}
-              <div className="flex justify-center gap-1 mt-2">
-                {Array.from({ length: 5 }).map((_, idx) => (
-                  <div
-                    key={idx}
-                    className={`h-1.5 w-1.5 rounded-full transition-colors ${
-                      idx < skill.level
-                        ? "bg-primary"
-                        : "bg-muted-foreground/20"
-                    }`}
-                  />
-                ))}
-              </div>
-              {/* Tooltip on hover */}
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                <Badge variant="secondary" className="text-xs whitespace-nowrap">
-                  {getLevelLabel(skill.level)}
-                </Badge>
-              </div>
-            </motion.div>
-          ))}
+          <AnimatePresence mode="popLayout">
+            {filteredSkills.map((skill, i) => (
+              <motion.div
+                key={skill.name}
+                layout
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={
+                  isInView
+                    ? { opacity: 1, scale: 1, y: 0 }
+                    : { opacity: 0, scale: 0.8, y: 20 }
+                }
+                exit={{
+                  opacity: 0,
+                  scale: 0.8,
+                  y: -12,
+                  transition: { duration: 0.18, ease: "easeIn" },
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 320,
+                  damping: 24,
+                  delay: isInView ? Math.min(i * 0.045, 0.6) : 0,
+                }}
+                style={techVars(skill.name) as CSSProperties}
+                className="skill-card group relative flex flex-col items-center p-4 pt-5 rounded-xl border border-border bg-card cursor-default"
+              >
+                {/* Brand-colored icon chip */}
+                <div className="tech-chip mb-3 h-11 w-11 rounded-xl text-muted-foreground/80">
+                  <TechIcon name={skill.name} className="tech-icon h-6 w-6" />
+                </div>
+
+                <div className="text-sm font-medium text-center leading-tight">
+                  {skill.name}
+                </div>
+
+                {/* Level dots */}
+                <div className="flex justify-center gap-1 mt-2.5">
+                  {Array.from({ length: 5 }).map((_, idx) => (
+                    <div
+                      key={idx}
+                      className={`h-1.5 w-1.5 rounded-full transition-colors duration-300 ${
+                        idx < skill.level
+                          ? "bg-primary dot-on"
+                          : "bg-muted-foreground/20"
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                {/* Tooltip on hover */}
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300 pointer-events-none z-10">
+                  <Badge variant="secondary" className="text-xs whitespace-nowrap shadow-md">
+                    {getLevelLabel(skill.level)}
+                  </Badge>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </motion.div>
       </div>
     </section>

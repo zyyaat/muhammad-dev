@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
+import TechIcon from "./TechIcon";
 
 type ProjectCategory = "All" | "Web App" | "API" | "Mobile" | "Open Source";
 
@@ -204,8 +205,11 @@ export default function Projects() {
                     <Badge
                       key={tag}
                       variant="secondary"
-                      className="text-xs font-normal"
+                      className="tech-badge text-xs font-normal gap-1.5 pl-2 hover:border-primary/30 transition-colors"
                     >
+                      <span className="tech-badge-icon">
+                        <TechIcon name={tag} className="h-3 w-3" />
+                      </span>
                       {tag}
                     </Badge>
                   ))}
